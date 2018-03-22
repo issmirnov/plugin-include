@@ -607,6 +607,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
 
         $check = array(); // used for sectionID() in order to get the same ids as the xhtml renderer
 
+        // If the specified section is never found, we should display nothing
+        $foundSection = false;
+        
         for($i=0; $i<$num; $i++) {
             if ($ins[$i][0] == 'header') { 
 
@@ -614,6 +617,7 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 if (sectionID($ins[$i][1][0], $check) == $sect) {
                     $offset = $i;
                     $lvl    = $ins[$i][1][1]; 
+                    $foundSection = true;
                 } elseif ($offset && $lvl && ($ins[$i][1][1] <= $lvl)) {
                     $end = $i - $offset;
                     $endpos = $ins[$i][1][2]; // the position directly after the found section, needed for the section edit button
@@ -627,6 +631,11 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
             $ins = array_slice($ins, $offset, $end);
             // store the end position in the include_closelastsecedit instruction so it can generate a matching button
             $ins[] = array('plugin', array('include_closelastsecedit', array($endpos)));
+        }
+        
+        // If the desired section was never found, render nothing
+        if ($foundSection !== true) {
+            $ins = array();
         }
     } 
 
