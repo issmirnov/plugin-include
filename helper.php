@@ -300,6 +300,9 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         // filter instructions if needed
         if(!empty($sect)) {
             $this->_get_section($ins, $sect);   // section required
+            if (empty($ins)) {
+                return; // Don't generate footer or header on empty sections.
+            }
         }
 
         if($flags['firstsec']) {
