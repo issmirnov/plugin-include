@@ -49,6 +49,8 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
         $this->defaults['pageexists']  = $this->getConf('pageexists');
         $this->defaults['parlink']   = $this->getConf('parlink');
         $this->defaults['inline']    = false;
+        $this->defaults['appendtitle']  = false; // append page title to section header
+        $this->defaults['pagetitle']  = false; // replace title of section with the page name
         $this->defaults['order']     = $this->getConf('order');
         $this->defaults['rsort']     = $this->getConf('rsort');
         $this->defaults['depth']     = $this->getConf('depth');
@@ -80,6 +82,12 @@ class helper_plugin_include extends DokuWiki_Plugin { // DokuWiki_Helper_Plugin
                 list($flag, $value) = explode('=', $flag, 2);
             }
             switch ($flag) {
+                case 'appendtitle':
+                    $flags['appendtitle'] = 1;
+                    break;
+                case 'pagetitle':
+                    $flags['pagetitle'] = 1;
+                    break;
                 case 'footer':
                     $flags['footer'] = 1;
                     break;

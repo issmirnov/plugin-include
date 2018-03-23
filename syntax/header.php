@@ -42,6 +42,11 @@ class syntax_plugin_include_header extends DokuWiki_Syntax_Plugin {
 
         if ($mode == 'xhtml') {
             /** @var Doku_Renderer_xhtml $renderer */
+            if($flags['appendtitle']) {
+                $headline = $headline . " (". $page . ")";
+            } elseif ($flags['pagetitle']) {
+                $headline = $page; //  _simpleTitle($page);
+            }
             $hid = $renderer->_headerToLink($headline, true);
             $renderer->toc_additem($hid, $headline, $lvl);
             $url = ($sect) ? wl($page) . '#' . $sect : wl($page);
